@@ -14,6 +14,8 @@
 		2F7C85611BFF1B5800EE84ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F7C855F1BFF1B5800EE84ED /* LaunchScreen.storyboard */; };
 		2F7C856C1BFF1B5900EE84ED /* iRISTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7C856B1BFF1B5900EE84ED /* iRISTests.swift */; };
 		2F7C85771BFF1B5900EE84ED /* iRISUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7C85761BFF1B5900EE84ED /* iRISUITests.swift */; };
+		2F7C85861BFF1ED500EE84ED /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7C85841BFF1D7800EE84ED /* API.swift */; };
+		2F7C85881BFF26BF00EE84ED /* VehicleAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7C85871BFF26BF00EE84ED /* VehicleAnnotationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		2F7C85721BFF1B5900EE84ED /* iRISUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iRISUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F7C85761BFF1B5900EE84ED /* iRISUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iRISUITests.swift; sourceTree = "<group>"; };
 		2F7C85781BFF1B5900EE84ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2F7C85841BFF1D7800EE84ED /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		2F7C85871BFF26BF00EE84ED /* VehicleAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleAnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,8 @@
 			children = (
 				2F7C85561BFF1B5800EE84ED /* AppDelegate.swift */,
 				2F7C85581BFF1B5800EE84ED /* ViewController.swift */,
+				2F7C85841BFF1D7800EE84ED /* API.swift */,
+				2F7C85871BFF26BF00EE84ED /* VehicleAnnotationView.swift */,
 				2F7C855A1BFF1B5800EE84ED /* Main.storyboard */,
 				2F7C855D1BFF1B5800EE84ED /* Assets.xcassets */,
 				2F7C855F1BFF1B5800EE84ED /* LaunchScreen.storyboard */,
@@ -256,7 +262,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F7C85881BFF26BF00EE84ED /* VehicleAnnotationView.swift in Sources */,
 				2F7C85591BFF1B5800EE84ED /* ViewController.swift in Sources */,
+				2F7C85861BFF1ED500EE84ED /* API.swift in Sources */,
 				2F7C85571BFF1B5800EE84ED /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,6 +492,7 @@
 				2F7C857D1BFF1B5900EE84ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2F7C857E1BFF1B5900EE84ED /* Build configuration list for PBXNativeTarget "iRISTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +501,7 @@
 				2F7C85801BFF1B5900EE84ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2F7C85811BFF1B5900EE84ED /* Build configuration list for PBXNativeTarget "iRISUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +510,7 @@
 				2F7C85831BFF1B5900EE84ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

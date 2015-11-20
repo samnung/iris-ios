@@ -7,19 +7,44 @@
 //
 
 import UIKit
+import MapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MKMapViewDelegate {
 
+    @IBOutlet weak var mapView: MKMapView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        mapView.delegate = self
+        
+        downloadAllData { result in
+            switch result {
+            case .Ok(let items):
+                print(items.count)
+                self.updateMapViewWithItems(items)
+            case .Error(let error):
+                print(error)
+            }
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func updateMapViewWithItems(items: [DataItem]) {
+        mapView.removeAnnotations(self.mapView.annotations)
+        mapView.addAnnotations(items.map { VehicleAnnotation(dataItem: $0) })
     }
+    
+    // MARK: MKMapViewDelegate
 
-
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "vehicle"
+        
+        var view = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? VehicleAnnotationView
+        if view == nil {
+            view = VehicleAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        }
+        
+        return view
+    }
 }
 
