@@ -13,9 +13,10 @@ import GLKit
 
 
 class VehicleAnnotationView: MKAnnotationView {
-    static let arrowSize = CGSize(width: 15, height: 20)
+    static let arrowSize = CGSize(width: 20, height: 25)
     
-    private var shapeView: ShapeView!
+    private weak var shapeView: ShapeView!
+    private weak var numberLabel: UILabel!
     
     var typedAnnotation: VehicleAnnotation? {
         return annotation as? VehicleAnnotation
@@ -23,7 +24,9 @@ class VehicleAnnotationView: MKAnnotationView {
     
     override var annotation: MKAnnotation? {
         didSet {
-            updateTriangleAnimated()
+            updateTriangle()
+            numberLabel.text = (typedAnnotation?.dataItem.line).flatMap { String($0) }
+            setNeedsLayout()
         }
     }
 
@@ -31,14 +34,49 @@ class VehicleAnnotationView: MKAnnotationView {
     
     required override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+        // is calling init(frame:) inside
     }
     
     required override init(frame: CGRect) {
         super.init(frame: frame)
+        commonInit()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        let size = self.dynamicType.arrowSize
+        let shapeView = ShapeView()
+        shapeView.fillColor = UIColor.redColor()
+        shapeView.frame.size = size
+        
+        let path = UIBezierPath()
+        path.moveToPoint(CGPoint(x: 0, y: 0))
+        path.addLineToPoint(CGPoint(x: size.width/2, y: size.height / 4))
+        path.addLineToPoint(CGPoint(x: size.width, y: 0))
+        path.addLineToPoint(CGPoint(x: size.width/2, y: size.height))
+        path.closePath()
+        shapeView.path = path
+        addSubview(shapeView)
+        self.shapeView = shapeView
+        
+        let label = UILabel()
+        label.textColor = UIColor.whiteColor()
+        label.font = UIFont.systemFontOfSize(8)
+        label.shadowColor = UIColor.blackColor()
+        label.shadowOffset = CGSize(width: 0, height: 0)
+        addSubview(label)
+        numberLabel = label
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        numberLabel.sizeToFit()
+        numberLabel.center = bounds.mid
     }
     
     // MARK: heading property
@@ -56,13 +94,13 @@ class VehicleAnnotationView: MKAnnotationView {
     
     func setMapHeading(heading: Double, animated: Bool) {
         _mapHeading = heading
-        updateTriangleAnimated(animated)
+        updateTriangle(animated: animated)
     }
     
     // MARK: private
     
     private func calculateArrowHeading() -> CGFloat {
-        let rotatation = typedAnnotation?.dataItem.bear ?? 0.0
+        let rotatation = (typedAnnotation?.dataItem.bear) ?? 0.0
         
         // Convert mapHeading to 360 degree scale.
         var l_mapHeading = mapHeading
@@ -80,23 +118,7 @@ class VehicleAnnotationView: MKAnnotationView {
         return CGFloat(GLKMathDegreesToRadians(Float(offsetHeading)))
     }
 
-    private func updateTriangleAnimated(animated: Bool = false) {
-        if shapeView == nil {
-            let size = self.dynamicType.arrowSize
-            shapeView = ShapeView()
-            shapeView.fillColor = UIColor.redColor()
-            shapeView.frame.size = size
-
-            let path = UIBezierPath()
-            path.moveToPoint(CGPoint(x: 0, y: 0))
-            path.addLineToPoint(CGPoint(x: size.width/2, y: size.height / 4))
-            path.addLineToPoint(CGPoint(x: size.width, y: 0))
-            path.addLineToPoint(CGPoint(x: size.width/2, y: size.height))
-            path.closePath()
-            shapeView.path = path
-            self.addSubview(shapeView)
-        }
-    
+    private func updateTriangle(animated animated: Bool = false) {
         let heading = calculateArrowHeading()
         
         let animationBlock = {

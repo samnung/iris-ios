@@ -18,6 +18,7 @@
 		2F7C85881BFF26BF00EE84ED /* VehicleAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7C85871BFF26BF00EE84ED /* VehicleAnnotationView.swift */; };
 		2FB7CCE51C021A7C0089D8C9 /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB7CCE41C021A7C0089D8C9 /* ShapeView.swift */; };
 		2FB7CCE71C021A970089D8C9 /* VehicleAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB7CCE61C021A970089D8C9 /* VehicleAnnotation.swift */; };
+		2FB7CCE91C021D380089D8C9 /* CGRect+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB7CCE81C021D380089D8C9 /* CGRect+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		2F7C85871BFF26BF00EE84ED /* VehicleAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleAnnotationView.swift; sourceTree = "<group>"; };
 		2FB7CCE41C021A7C0089D8C9 /* ShapeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
 		2FB7CCE61C021A970089D8C9 /* VehicleAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleAnnotation.swift; sourceTree = "<group>"; };
+		2FB7CCE81C021D380089D8C9 /* CGRect+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				2FB7CCE61C021A970089D8C9 /* VehicleAnnotation.swift */,
 				2F7C85871BFF26BF00EE84ED /* VehicleAnnotationView.swift */,
 				2FB7CCE41C021A7C0089D8C9 /* ShapeView.swift */,
+				2FB7CCE81C021D380089D8C9 /* CGRect+Extensions.swift */,
 				2F7C855A1BFF1B5800EE84ED /* Main.storyboard */,
 				2F7C855D1BFF1B5800EE84ED /* Assets.xcassets */,
 				2F7C855F1BFF1B5800EE84ED /* LaunchScreen.storyboard */,
@@ -272,6 +275,7 @@
 				2F7C85881BFF26BF00EE84ED /* VehicleAnnotationView.swift in Sources */,
 				2F7C85591BFF1B5800EE84ED /* ViewController.swift in Sources */,
 				2FB7CCE71C021A970089D8C9 /* VehicleAnnotation.swift in Sources */,
+				2FB7CCE91C021D380089D8C9 /* CGRect+Extensions.swift in Sources */,
 				2F7C85861BFF1ED500EE84ED /* API.swift in Sources */,
 				2F7C85571BFF1B5800EE84ED /* AppDelegate.swift in Sources */,
 			);
