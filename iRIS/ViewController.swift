@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import GLKit
 
-class ViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
+class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     
@@ -48,16 +48,6 @@ class ViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDe
             
             view.setMapHeading(mapHeading, animated: true)
         }
-    }
-    
-    
-    // MARK: UIGestureRecognizerDelegate
-    
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
     
     // MARK: MKMapViewDelegate
