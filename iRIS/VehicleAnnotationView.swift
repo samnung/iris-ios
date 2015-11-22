@@ -33,12 +33,43 @@ class VehicleAnnotation: NSObject, MKAnnotation {
     }
 }
 
+
+
+class ShapeView: UIView {
+    override class func layerClass() -> AnyClass {
+        return CAShapeLayer.self
+    }
+    
+    var typedLayer: CAShapeLayer {
+        return layer as! CAShapeLayer
+    }
+    
+    var path: UIBezierPath? {
+        set {
+            typedLayer.path = newValue?.CGPath
+        }
+        get {
+            return typedLayer.path.flatMap { UIBezierPath(CGPath: $0) }
+        }
+    }
+    
+    var fillColor: UIColor? {
+        set {
+            typedLayer.fillColor = newValue?.CGColor
+        }
+        get {
+            return typedLayer.fillColor.flatMap { UIColor(CGColor: $0) }
+        }
+    }
+}
+
+
 class VehicleAnnotationView: MKAnnotationView {
     var typedAnnotation: VehicleAnnotation? {
         return annotation as? VehicleAnnotation
     }
     
-    var shapeLayer: CAShapeLayer!
+    var shapeView: ShapeView!
     
     override var annotation: MKAnnotation? {
         didSet {
@@ -57,25 +88,27 @@ class VehicleAnnotationView: MKAnnotationView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func updateTriangle() {
-        if shapeLayer == nil {
-            shapeLayer = CAShapeLayer()
-            shapeLayer.fillColor = UIColor.redColor().CGColor
 
-            let size = CGSize(width: 20, height: 20)
+    func updateTriangle() {
+        if shapeView == nil {
+            let size = CGSize(width: 15, height: 20)
+
+            shapeView = ShapeView()
+            shapeView.fillColor = UIColor.redColor()
+            shapeView.frame.size = size
 
             let path = UIBezierPath()
-            path.moveToPoint(CGPoint(x: -size.width/2, y: -size.height/2))
-            path.addLineToPoint(CGPoint(x: size.width/2, y: -size.height/2))
-            path.addLineToPoint(CGPoint(x: 0, y: size.height/2))
+            path.moveToPoint(CGPoint(x: 0, y: 0))
+            path.addLineToPoint(CGPoint(x: size.width/2, y: size.height / 4))
+            path.addLineToPoint(CGPoint(x: size.width, y: 0))
+            path.addLineToPoint(CGPoint(x: size.width/2, y: size.height))
             path.closePath()
-            shapeLayer.path = path.CGPath
-            self.layer.addSublayer(shapeLayer)
+            shapeView.path = path
+            self.addSubview(shapeView)
         }
         
         if let annotation = typedAnnotation, let rotatation = Float(annotation.dataItem.bear) {
-            shapeLayer.transform = CATransform3DMakeRotation(CGFloat(GLKMathDegreesToRadians(rotatation)), 0, 0, 1)
+            shapeView.transform = CGAffineTransformMakeRotation(CGFloat(GLKMathDegreesToRadians(rotatation)))
         }
     }
 }

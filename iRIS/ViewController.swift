@@ -44,6 +44,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
             view = VehicleAnnotationView(annotation: annotation, reuseIdentifier: identifier)
         }
         
+        view?.frame.size = CGSize(width: 20, height: 20)
+        
         return view
     }
 }
