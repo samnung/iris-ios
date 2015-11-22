@@ -65,6 +65,8 @@ class ShapeView: UIView {
 
 
 class VehicleAnnotationView: MKAnnotationView {
+    static let arrowSize = CGSize(width: 15, height: 20)
+    
     var typedAnnotation: VehicleAnnotation? {
         return annotation as? VehicleAnnotation
     }
@@ -73,9 +75,10 @@ class VehicleAnnotationView: MKAnnotationView {
     
     override var annotation: MKAnnotation? {
         didSet {
-            updateTriangle()
+            updateTriangleAnimated()
         }
     }
+
     
     required override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -88,11 +91,30 @@ class VehicleAnnotationView: MKAnnotationView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: heading property
+    
+    private var _mapHeading: Double = 0.0
+    
+    var mapHeading: Double {
+        set {
+            setMapHeading(newValue, animated: false)
+        }
+        get {
+            return _mapHeading
+        }
+    }
+    
+    func setMapHeading(heading: Double, animated: Bool) {
+        _mapHeading = heading
+        updateTriangleAnimated(animated)
+    }
+    
+    // MARK: private
 
-    func updateTriangle() {
+    private func updateTriangleAnimated(animated: Bool = false) {
         if shapeView == nil {
-            let size = CGSize(width: 15, height: 20)
-
+            let size = self.dynamicType.arrowSize
             shapeView = ShapeView()
             shapeView.fillColor = UIColor.redColor()
             shapeView.frame.size = size
@@ -107,8 +129,33 @@ class VehicleAnnotationView: MKAnnotationView {
             self.addSubview(shapeView)
         }
         
-        if let annotation = typedAnnotation, let rotatation = Float(annotation.dataItem.bear) {
-            shapeView.transform = CGAffineTransformMakeRotation(CGFloat(GLKMathDegreesToRadians(rotatation)))
+        if let annotation = typedAnnotation {
+            let rotatation = annotation.dataItem.bear
+            
+            // Convert mapHeading to 360 degree scale.
+            var l_mapHeading = mapHeading
+            if (l_mapHeading < 0) {
+                l_mapHeading = fabs(l_mapHeading)
+            } else if (l_mapHeading > 0) {
+                l_mapHeading = 360 - l_mapHeading
+            }
+            
+            var offsetHeading = (Double(rotatation) + l_mapHeading)
+            while (offsetHeading > 360.0) {
+                offsetHeading -= 360.0
+            }
+            
+            let headingInRadians = CGFloat(GLKMathDegreesToRadians(Float(offsetHeading)))
+            
+            let animationBlock = {
+                self.shapeView.transform = CGAffineTransformMakeRotation(headingInRadians)
+            }
+            
+            if animated {
+                UIView.animateWithDuration(0.3, animations: animationBlock)
+            } else {
+                animationBlock()
+            }
         }
     }
 }

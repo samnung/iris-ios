@@ -33,7 +33,7 @@ extension Dictionary where Key: StringLiteralConvertible {
 
 
 struct DataItem {
-    var bear: String = ""
+    var bear: Float = 0.0
     var course: String = ""
     var delay: Int = 0
     var endStop: Int = 0
@@ -48,7 +48,8 @@ struct DataItem {
     var startStop: Int = 0
     
     init(id: String, data: JSONObject) throws {
-        bear = try data.get("Bear")
+        let bearString: String = try data.get("Bear")
+        bear = Float(bearString)!
         course = try data.get("Course")
         delay = try data.get("Delay")
         endStop = try data.get("EndStop")

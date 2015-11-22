@@ -8,8 +8,9 @@
 
 import UIKit
 import MapKit
+import GLKit
 
-class ViewController: UIViewController, MKMapViewDelegate {
+class ViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     
@@ -34,6 +35,31 @@ class ViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotations(items.map { VehicleAnnotation(dataItem: $0) })
     }
     
+    func updateAllVisibleAnnotationsDirections() {
+        let mapHeading = mapView.camera.heading
+        
+        mapView.annotationsInMapRect(mapView.visibleMapRect).forEach { annotation in
+            guard let annotation = annotation as? VehicleAnnotation else {
+                return
+            }
+            guard let view = mapView.viewForAnnotation(annotation) as? VehicleAnnotationView else {
+                return
+            }
+            
+            view.setMapHeading(mapHeading, animated: true)
+        }
+    }
+    
+    
+    // MARK: UIGestureRecognizerDelegate
+    
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
     // MARK: MKMapViewDelegate
 
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -44,9 +70,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
             view = VehicleAnnotationView(annotation: annotation, reuseIdentifier: identifier)
         }
         
-        view?.frame.size = CGSize(width: 20, height: 20)
+        view?.frame.size = VehicleAnnotationView.arrowSize
+        view?.canShowCallout = true
         
         return view
+    }
+    
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        updateAllVisibleAnnotationsDirections()
     }
 }
 
