@@ -110,7 +110,7 @@ class VehicleAnnotationView: MKAnnotationView {
             l_mapHeading = 360 - l_mapHeading
         }
         
-        var offsetHeading = (Double(rotatation) + l_mapHeading)
+        var offsetHeading = (Double(rotatation) + l_mapHeading) - 180.0
         while (offsetHeading > 360.0) {
             offsetHeading -= 360.0
         }
