@@ -94,7 +94,9 @@ func downloadAllData(completion: (ServerResult<[DataItem]>) -> ()) {
 
     let task = session.dataTaskWithRequest(request) { data, response, error in
         if let error = error {
-            completion(.Error(error))
+            dispatch_async(dispatch_get_main_queue()) {
+                completion(.Error(error))
+            }
         } else if let data = data {
             if let json = (try? NSJSONSerialization.JSONObjectWithData(data, options: [])) as? JSONObject {
                 var items = [DataItem]()
@@ -115,9 +117,13 @@ func downloadAllData(completion: (ServerResult<[DataItem]>) -> ()) {
                 
                 let newItems = items.filter { $0.line == 702 }
                 
-                completion(.Ok(newItems))
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(.Ok(newItems))
+                }
             } else {
-                completion(.Error(ServerError.ParsingJson))
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(.Error(ServerError.ParsingJson))
+                }
             }
         }
     }
