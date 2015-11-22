@@ -13,16 +13,26 @@ import GLKit
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    private var timer: NSTimer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         mapView.delegate = self
         
+        downloadNewData()
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "downloadNewData", userInfo: nil, repeats: true)
+    }
+    
+    func downloadNewData() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+
         downloadAllData { result in
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+
             switch result {
             case .Ok(let items):
-                print(items.count)
                 self.updateMapViewWithItems(items)
             case .Error(let error):
                 print(error)
